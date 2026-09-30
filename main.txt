@@ -1,0 +1,697 @@
+using System;
+using System.IO;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using WSUniversalLib;
+
+namespace TestSharp_WSUniversalLib
+{
+    [TestClass]
+    public class UnitTest1
+    {
+        private readonly Calculation classCalculation = new Calculation();
+        [TestMethod]
+        public void TestMethodNotGood()
+        {
+            int res = classCalculation.GetQuantityForProduct(4, 2, 15, 20, 45);
+            Assert.AreEqual(-1, res);
+        }
+
+        [TestMethod]
+        public void TestMethodGood()
+        {
+            int res = classCalculation.GetQuantityForProduct(1, 1, 1, 1, 1);
+            Assert.AreEqual(2, res);
+        }
+        [TestMethod]
+        public void TestMethodBigValue()
+        {
+            int res = classCalculation.GetQuantityForProduct(1, 1, 9999, 9999, 9999);
+            Assert.AreEqual(-1, res);
+        }
+        [TestMethod]
+        public void TestMethodTwoValue()
+        {
+            int res = classCalculation.GetQuantityForProduct(2, 2, 2, 2, 2);
+            Assert.AreEqual(21, res);
+        }
+        [TestMethod]
+        public void TestMethodTwoAndTreeValue()
+        {
+            int res = classCalculation.GetQuantityForProduct(2, 3, 2, 2, 2);
+            Assert.AreEqual(-1, res);
+        }
+        [TestMethod]
+        public void TestMethodNotGoodMinusOne()
+        {
+            int res = classCalculation.GetQuantityForProduct(-1, 2, 15, 20, 45);
+            Assert.AreEqual(-1, res);
+        }
+
+        [TestMethod]
+        public void TestMethodGoodBg100()
+        {
+            int res = classCalculation.GetQuantityForProduct(1, 1, 100, 100, 100);
+            Assert.AreEqual(1103310, res);
+        }
+        [TestMethod]
+        public void TestMethodBigValueNotGood()
+        {
+            int res = classCalculation.GetQuantityForProduct(1, 1, -99, -99, -99);
+            Assert.AreEqual(-1, res);
+        }
+        [TestMethod]
+        public void TestMethodValueFullNotGood()
+        {
+            int res = classCalculation.GetQuantityForProduct(9999, -9999, -99, 99999, -0);
+            Assert.AreEqual(-1, res);
+        }
+        [TestMethod]
+        public void TestMethodTwoAndTreeValueGood()
+        {
+            int res = classCalculation.GetQuantityForProduct(3, 2, 2, 2, 2);
+            Assert.AreEqual(68, res);
+        }
+        [TestMethod]
+        public void TestHardMethodTwoAndTreeValueGood()
+        {
+            int res = classCalculation.GetQuantityForProduct(3, 2, 2, 1.99f, 1.99f);
+            Assert.AreEqual(67, res);
+        }
+        [TestMethod]
+        public void TestHardMethodNotGood()
+        {
+            int res = classCalculation.GetQuantityForProduct(4, 2, 15, 23.999f, 45);
+            Assert.AreEqual(-1, res);
+        }
+
+        [TestMethod]
+        public void TestHardMethodGood()
+        {
+            int res = classCalculation.GetQuantityForProduct(1, 1, 1, 1, 0.999f);
+            Assert.AreEqual(2, res);
+        }
+        [TestMethod]
+        public void TestHardMethodBigValue()
+        {
+            int res = classCalculation.GetQuantityForProduct(1, 1, 9999, 9999.999f, 9999.999f);
+            Assert.AreEqual(-1, res);
+        }
+        [TestMethod]
+        public void TestHardMethodTwoValue()
+        {
+            int res = classCalculation.GetQuantityForProduct(2, 2, 2, 2.2222f, 2.222f);
+            Assert.AreEqual(25, res);
+        }
+    }
+}
+
+
+
+using System;
+using System.IO;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using WSUniversalLib;
+
+namespace TestSharp_WSUniversalLib
+{
+    [TestClass]
+    public class CalculationTest
+    {
+        // Добавьте библиотеку WSUniversalLib.dll участника в ссылки проекта тестирования (References).
+        // https://docs.microsoft.com/ru-ru/visualstudio/ide/how-to-add-or-remove-references-by-using-the-reference-manager?view=vs-2019
+        // Затем можно приступать к запуску тестов в окне Обозревателя тестов (Test Explorer).
+        // Обратите внимание, что для поочередного запуска тестов разной сложности, можно использовать плейлисты (Playlist).
+        private readonly Calculation classCalculation = new Calculation();
+
+        #region Easy Test Methods
+        [TestMethod]
+        public void QuantityForProduct_Easy_01()
+        {
+            // Arrange
+            int productType, materialType, count;
+            float width, length;
+            ReadInputData("InputData_Easy_01.txt", out productType, out materialType, out count, out width, out length);
+            int expected = ReadOutputData("OutputData_Easy_01.txt");
+
+            // Act
+            int actual = classCalculation.GetQuantityForProduct(productType, materialType, count, width, length);
+
+            // Assert
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void QuantityForProduct_Easy_02()
+        {
+            // Arrange
+            int productType, materialType, count;
+            float width, length;
+            ReadInputData("InputData_Easy_02.txt", out productType, out materialType, out count, out width, out length);
+            int expected = ReadOutputData("OutputData_Easy_02.txt");
+
+            // Act
+            int actual = classCalculation.GetQuantityForProduct(productType, materialType, count, width, length);
+
+            // Assert
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void QuantityForProduct_Easy_03()
+        {
+            // Arrange
+            int productType, materialType, count;
+            float width, length;
+            ReadInputData("InputData_Easy_03.txt", out productType, out materialType, out count, out width, out length);
+            int expected = ReadOutputData("OutputData_Easy_03.txt");
+
+            // Act
+            int actual = classCalculation.GetQuantityForProduct(productType, materialType, count, width, length);
+
+            // Assert
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void QuantityForProduct_Easy_04()
+        {
+            // Arrange
+            int productType, materialType, count;
+            float width, length;
+            ReadInputData("InputData_Easy_04.txt", out productType, out materialType, out count, out width, out length);
+            int expected = ReadOutputData("OutputData_Easy_04.txt");
+
+            // Act
+            int actual = classCalculation.GetQuantityForProduct(productType, materialType, count, width, length);
+
+            // Assert
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void QuantityForProduct_Easy_05()
+        {
+            // Arrange
+            int productType, materialType, count;
+            float width, length;
+            ReadInputData("InputData_Easy_05.txt", out productType, out materialType, out count, out width, out length);
+            int expected = ReadOutputData("OutputData_Easy_05.txt");
+
+            // Act
+            int actual = classCalculation.GetQuantityForProduct(productType, materialType, count, width, length);
+
+            // Assert
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void QuantityForProduct_Easy_06()
+        {
+            // Arrange
+            int productType, materialType, count;
+            float width, length;
+            ReadInputData("InputData_Easy_06.txt", out productType, out materialType, out count, out width, out length);
+            int expected = ReadOutputData("OutputData_Easy_06.txt");
+
+            // Act
+            int actual = classCalculation.GetQuantityForProduct(productType, materialType, count, width, length);
+
+            // Assert
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void QuantityForProduct_Easy_07()
+        {
+            // Arrange
+            int productType, materialType, count;
+            float width, length;
+            ReadInputData("InputData_Easy_07.txt", out productType, out materialType, out count, out width, out length);
+            int expected = ReadOutputData("OutputData_Easy_07.txt");
+
+            // Act
+            int actual = classCalculation.GetQuantityForProduct(productType, materialType, count, width, length);
+
+            // Assert
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void QuantityForProduct_Easy_08()
+        {
+            // Arrange
+            int productType, materialType, count;
+            float width, length;
+            ReadInputData("InputData_Easy_08.txt", out productType, out materialType, out count, out width, out length);
+            int expected = ReadOutputData("OutputData_Easy_08.txt");
+
+            // Act
+            int actual = classCalculation.GetQuantityForProduct(productType, materialType, count, width, length);
+
+            // Assert
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void QuantityForProduct_Easy_09()
+        {
+            // Arrange
+            int productType, materialType, count;
+            float width, length;
+            ReadInputData("InputData_Easy_09.txt", out productType, out materialType, out count, out width, out length);
+            int expected = ReadOutputData("OutputData_Easy_09.txt");
+
+            // Act
+            int actual = classCalculation.GetQuantityForProduct(productType, materialType, count, width, length);
+
+            // Assert
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void QuantityForProduct_Easy_10()
+        {
+            // Arrange
+            int productType, materialType, count;
+            float width, length;
+            ReadInputData("InputData_Easy_10.txt", out productType, out materialType, out count, out width, out length);
+            int expected = ReadOutputData("OutputData_Easy_10.txt");
+
+            // Act
+            int actual = classCalculation.GetQuantityForProduct(productType, materialType, count, width, length);
+
+            // Assert
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void QuantityForProduct_Easy_11()
+        {
+            // Arrange
+            int productType, materialType, count;
+            float width, length;
+            ReadInputData("InputData_Easy_11.txt", out productType, out materialType, out count, out width, out length);
+            int expected = ReadOutputData("OutputData_Easy_11.txt");
+
+            // Act
+            int actual = classCalculation.GetQuantityForProduct(productType, materialType, count, width, length);
+
+            // Assert
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void QuantityForProduct_Easy_12()
+        {
+            // Arrange
+            int productType, materialType, count;
+            float width, length;
+            ReadInputData("InputData_Easy_12.txt", out productType, out materialType, out count, out width, out length);
+            int expected = ReadOutputData("OutputData_Easy_12.txt");
+
+            // Act
+            int actual = classCalculation.GetQuantityForProduct(productType, materialType, count, width, length);
+
+            // Assert
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void QuantityForProduct_Easy_13()
+        {
+            // Arrange
+            int productType, materialType, count;
+            float width, length;
+            ReadInputData("InputData_Easy_13.txt", out productType, out materialType, out count, out width, out length);
+            int expected = ReadOutputData("OutputData_Easy_13.txt");
+
+            // Act
+            int actual = classCalculation.GetQuantityForProduct(productType, materialType, count, width, length);
+
+            // Assert
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void QuantityForProduct_Easy_14()
+        {
+            // Arrange
+            int productType, materialType, count;
+            float width, length;
+            ReadInputData("InputData_Easy_14.txt", out productType, out materialType, out count, out width, out length);
+            int expected = ReadOutputData("OutputData_Easy_14.txt");
+
+            // Act
+            int actual = classCalculation.GetQuantityForProduct(productType, materialType, count, width, length);
+
+            // Assert
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void QuantityForProduct_Easy_15()
+        {
+            // Arrange
+            int productType, materialType, count;
+            float width, length;
+            ReadInputData("InputData_Easy_15.txt", out productType, out materialType, out count, out width, out length);
+            int expected = ReadOutputData("OutputData_Easy_15.txt");
+
+            // Act
+            int actual = classCalculation.GetQuantityForProduct(productType, materialType, count, width, length);
+
+            // Assert
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void QuantityForProduct_Easy_16()
+        {
+            // Arrange
+            int productType, materialType, count;
+            float width, length;
+            ReadInputData("InputData_Easy_16.txt", out productType, out materialType, out count, out width, out length);
+            int expected = ReadOutputData("OutputData_Easy_16.txt");
+
+            // Act
+            int actual = classCalculation.GetQuantityForProduct(productType, materialType, count, width, length);
+
+            // Assert
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void QuantityForProduct_Easy_17()
+        {
+            // Arrange
+            int productType, materialType, count;
+            float width, length;
+            ReadInputData("InputData_Easy_17.txt", out productType, out materialType, out count, out width, out length);
+            int expected = ReadOutputData("OutputData_Easy_17.txt");
+
+            // Act
+            int actual = classCalculation.GetQuantityForProduct(productType, materialType, count, width, length);
+
+            // Assert
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void QuantityForProduct_Easy_18()
+        {
+            // Arrange
+            int productType, materialType, count;
+            float width, length;
+            ReadInputData("InputData_Easy_18.txt", out productType, out materialType, out count, out width, out length);
+            int expected = ReadOutputData("OutputData_Easy_18.txt");
+
+            // Act
+            int actual = classCalculation.GetQuantityForProduct(productType, materialType, count, width, length);
+
+            // Assert
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void QuantityForProduct_Easy_19()
+        {
+            // Arrange
+            int productType, materialType, count;
+            float width, length;
+            ReadInputData("InputData_Easy_19.txt", out productType, out materialType, out count, out width, out length);
+            int expected = ReadOutputData("OutputData_Easy_19.txt");
+
+            // Act
+            int actual = classCalculation.GetQuantityForProduct(productType, materialType, count, width, length);
+
+            // Assert
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void QuantityForProduct_Easy_20()
+        {
+            // Arrange
+            int productType, materialType, count;
+            float width, length;
+            ReadInputData("InputData_Easy_20.txt", out productType, out materialType, out count, out width, out length);
+            int expected = ReadOutputData("OutputData_Easy_20.txt");
+
+            // Act
+            int actual = classCalculation.GetQuantityForProduct(productType, materialType, count, width, length);
+
+            // Assert
+            Assert.AreEqual(expected, actual);
+        }
+        #endregion
+        
+        #region Hard Test Methods
+        [TestMethod]
+        public void QuantityForProduct_Hard_01()
+        {
+            // Arrange
+            int productType, materialType, count;
+            float width, length;
+            ReadInputData("InputData_Hard_01.txt", out productType, out materialType, out count, out width, out length);
+            int expected = ReadOutputData("OutputData_Hard_01.txt");
+
+            // Act
+            int actual = classCalculation.GetQuantityForProduct(productType, materialType, count, width, length);
+
+            // Assert
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void QuantityForProduct_Hard_02()
+        {
+            // Arrange
+            int productType, materialType, count;
+            float width, length;
+            ReadInputData("InputData_Hard_02.txt", out productType, out materialType, out count, out width, out length);
+            int expected = ReadOutputData("OutputData_Hard_02.txt");
+
+            // Act
+            int actual = classCalculation.GetQuantityForProduct(productType, materialType, count, width, length);
+
+            // Assert
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void QuantityForProduct_Hard_03()
+        {
+            // Arrange
+            int productType, materialType, count;
+            float width, length;
+            ReadInputData("InputData_Hard_03.txt", out productType, out materialType, out count, out width, out length);
+            int expected = ReadOutputData("OutputData_Hard_03.txt");
+
+            // Act
+            int actual = classCalculation.GetQuantityForProduct(productType, materialType, count, width, length);
+
+            // Assert
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void QuantityForProduct_Hard_04()
+        {
+            // Arrange
+            int productType, materialType, count;
+            float width, length;
+            ReadInputData("InputData_Hard_04.txt", out productType, out materialType, out count, out width, out length);
+            int expected = ReadOutputData("OutputData_Hard_04.txt");
+
+            // Act
+            int actual = classCalculation.GetQuantityForProduct(productType, materialType, count, width, length);
+
+            // Assert
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void QuantityForProduct_Hard_05()
+        {
+            // Arrange
+            int productType, materialType, count;
+            float width, length;
+            ReadInputData("InputData_Hard_05.txt", out productType, out materialType, out count, out width, out length);
+            int expected = ReadOutputData("OutputData_Hard_05.txt");
+
+            // Act
+            int actual = classCalculation.GetQuantityForProduct(productType, materialType, count, width, length);
+
+            // Assert
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void QuantityForProduct_Hard_06()
+        {
+            // Arrange
+            int productType, materialType, count;
+            float width, length;
+            ReadInputData("InputData_Hard_06.txt", out productType, out materialType, out count, out width, out length);
+            int expected = ReadOutputData("OutputData_Hard_06.txt");
+
+            // Act
+            int actual = classCalculation.GetQuantityForProduct(productType, materialType, count, width, length);
+
+            // Assert
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void QuantityForProduct_Hard_07()
+        {
+            // Arrange
+            int productType, materialType, count;
+            float width, length;
+            ReadInputData("InputData_Hard_07.txt", out productType, out materialType, out count, out width, out length);
+            int expected = ReadOutputData("OutputData_Hard_07.txt");
+
+            // Act
+            int actual = classCalculation.GetQuantityForProduct(productType, materialType, count, width, length);
+
+            // Assert
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void QuantityForProduct_Hard_08()
+        {
+            // Arrange
+            int productType, materialType, count;
+            float width, length;
+            ReadInputData("InputData_Hard_08.txt", out productType, out materialType, out count, out width, out length);
+            int expected = ReadOutputData("OutputData_Hard_08.txt");
+
+            // Act
+            int actual = classCalculation.GetQuantityForProduct(productType, materialType, count, width, length);
+
+            // Assert
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void QuantityForProduct_Hard_09()
+        {
+            // Arrange
+            int productType, materialType, count;
+            float width, length;
+            ReadInputData("InputData_Hard_09.txt", out productType, out materialType, out count, out width, out length);
+            int expected = ReadOutputData("OutputData_Hard_09.txt");
+
+            // Act
+            int actual = classCalculation.GetQuantityForProduct(productType, materialType, count, width, length);
+
+            // Assert
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void QuantityForProduct_Hard_10()
+        {
+            // Arrange
+            int productType, materialType, count;
+            float width, length;
+            ReadInputData("InputData_Hard_10.txt", out productType, out materialType, out count, out width, out length);
+            int expected = ReadOutputData("OutputData_Hard_10.txt");
+
+            // Act
+            int actual = classCalculation.GetQuantityForProduct(productType, materialType, count, width, length);
+
+            // Assert
+            Assert.AreEqual(expected, actual);
+        }
+        #endregion
+
+        private void ReadInputData(string fileName, out int productType, out int materialType, out int count, out float width, out float length)
+        {
+            string path = "..\\..\\..\\..\\TestingData\\" + fileName;
+            string[] data = File.ReadAllLines(path);
+
+            productType = int.Parse(data[0]);
+            materialType = int.Parse(data[1]);
+            count = int.Parse(data[2]);
+            width = float.Parse(data[3]);
+            length = float.Parse(data[4]);
+        }
+
+        private int ReadOutputData(string fileName)
+        {
+            string path = "..\\..\\..\\..\\TestingData\\" + fileName;
+            string data = File.ReadAllText(path);
+            return int.Parse(data);
+        }
+    }
+}
+
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace WSUniversalLib
+{
+    public class Calculation
+    {
+        public int GetQuantityForProduct(int productType, int materialType, int count, float width, float length)
+        {
+            float koefProd = 0;
+            float koefMat = 0;
+            try
+            {
+                if (productType >= 1 &&
+                    productType <= 3 &&
+                    materialType >= 1 &&
+                    materialType <= 2 &&
+                    count >= 1 &&
+                    count <= 99999 &&
+                    width > 0 &&
+                    width < 9999 &&
+                    length > 0 &&
+                    length < 9999)
+                {
+                    switch (productType)
+                    {
+                        case 1:
+                            koefProd = 1.1f;
+                            break;
+                        case 2:
+                            koefProd = 2.5f;
+                            break;
+                        case 3:
+                            koefProd = 8.43f;
+                            break;
+                    }
+                    switch (materialType)
+                    {
+                        case 1:
+                            koefMat = 0.997f;
+                            break;
+                        case 2:
+                            koefMat = 0.9988f;
+                            break;
+                    }
+                    float P = width * length;
+                    
+                    int result = (int)Math.Ceiling(((P*count)* koefProd) /koefMat);
+                    return result;
+
+                }
+                else
+                {
+                    return -1;
+                }
+            }
+            catch
+            {
+                return -1;
+            }
+        }
+    }
+}
